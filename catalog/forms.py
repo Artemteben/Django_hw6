@@ -1,9 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, BooleanField
 from catalog.models import Product, Version
+from django import forms
 
 
-class StyleFormMixin:
+class StyleFormMixin(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -13,10 +14,10 @@ class StyleFormMixin:
                 field.widget.attrs["class"] = ["form-control"]
 
 
-class ProductForm(StyleFormMixin, ModelForm):
+class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ("views_counter",)
+        exclude = ["views_counter"]
 
 
 class VersionForm(StyleFormMixin, ModelForm):
@@ -38,6 +39,6 @@ class VersionForm(StyleFormMixin, ModelForm):
             "радар",
         ]
         for bad_name in bad_list_name:
-            if bad_name == cleaned_data:
+            if bad_name in cleaned_data:
                 raise ValidationError(" Запрещенные слова недопустимы")
         return cleaned_data
