@@ -104,24 +104,23 @@ class Version(models.Model):
         blank=True,
         verbose_name="Продукт",
     )
-    name = models.CharField(max_length=200, verbose_name="Наименование")
-    category = models.ForeignKey(
-        "Category",
-        on_delete=models.SET_NULL,
-        verbose_name="Категория",
+     version_number = models.PositiveIntegerField(
+        verbose_name="Номер версии",
+        help_text="Введите номер версии",
+    )
+    version_name = models.CharField(
+        verbose_name="Название версии",
+        help_text="Введите название версии",
         blank=True,
         null=True,
-        related_name="version_products",
     )
-    price = models.IntegerField(verbose_name="Цена за покупку", default=0)
-    created_at = models.DateField(blank=True, null=True, verbose_name="Дата создания")
-    updated_at = models.DateField(
-        blank=True, null=True, verbose_name="Дата последнего изменения"
+    indication_current_version = models.BooleanField(
+        verbose_name="Признак текущей версии.",
+        help_text="Введите признак текущей версии",
+        default=False,
     )
 
     class Meta:
-        verbose_name = "Продукт версии"
-        verbose_name_plural = "Продукты версий"
-
-    def __str__(self):
-        return self.name
+        verbose_name = "Версия продукта"
+        verbose_name_plural = "Версии продуктов"
+        ordering = ["indication_current_version", "version_number"]
