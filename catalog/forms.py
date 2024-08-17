@@ -19,6 +19,25 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         model = Product
         exclude = ["views_counter"]
 
+    def clean_description(self):
+        cleaned_data = self.cleaned_data.get("description")
+        bad_list_description = [
+            "казино",
+            "криптовалюта",
+            "крипта",
+            "биржа",
+            "дешево",
+            "бесплатно",
+            "обман",
+            "полиция",
+            "радар",
+        ]
+        for bad_word in bad_list_description:
+            if bad_word in cleaned_data:
+                raise ValidationError("Запрещенные слова недопустимы в описании")
+        return cleaned_data
+
+
 
 class VersionForm(StyleFormMixin, ModelForm):
     class Meta:
