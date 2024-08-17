@@ -26,15 +26,22 @@ class Product(models.Model):
     updated_at = models.DateField(
         blank=True, null=True, verbose_name="Дата последнего изменения"
     )
-
-    def __str__(self):
-        return self.name
-
+    active_version = models.ForeignKey(
+        "Version",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="active_products",
+        verbose_name="Активная версия"
+    )
     views_counter = models.PositiveIntegerField(
         default=0,
         verbose_name="Счётчик просмотров",
         help_text="Укажите количество просмотров",
     )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Продукт"
@@ -73,7 +80,7 @@ class Blog(models.Model):
         verbose_name="Дата создания", blank=True, null=True
     )
     publication_sign = models.BooleanField(
-        verbose_name="Уже опубликовано ?", default=False
+        verbose_name="Уже опубликовано?", default=False
     )
     views_counter = models.PositiveIntegerField(
         default=0,
@@ -104,7 +111,7 @@ class Version(models.Model):
         blank=True,
         verbose_name="Продукт",
     )
-     version_number = models.PositiveIntegerField(
+    version_number = models.PositiveIntegerField(
         verbose_name="Номер версии",
         help_text="Введите номер версии",
     )
