@@ -29,7 +29,16 @@ def contacts(request):
 
 class ProductListView(ListView):
     model = Product
+    template_name = "catalog/product_list.html"
+    context_object_name = "products"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context['products']
+        for product in products:
+            # Предполагается, что у продукта есть поле `active_version`, указывающее на активную версию
+            product.active_version = product.version_set.filter(is_active=True).first()
+        return context
     # catalog/catalog_list.html
     # def base_r(request):
 
