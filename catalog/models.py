@@ -59,6 +59,14 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+class ContactInfo(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name
+
 
 class Blog(models.Model):
     title = models.CharField(max_length=200, verbose_name="Заголовок")
