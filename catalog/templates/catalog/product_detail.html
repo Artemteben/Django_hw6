@@ -13,6 +13,10 @@
                         <p class="card-text">Цена: {{product.price}}</p>
                         <p class="card-text">Дата создания продукта: {{product.created_at}}</p>
                         <p class="card-text">Дата последнего изменения: {{product.updated_at}}</p>
+                        {% if object.active_version %}
+                        <p class="card-text">Активная версия: {{ object.active_version.version_name }} ({{
+                            object.active_version.version_number }})</p>
+                        {% endif %}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-primary" href="{% url 'catalog:product_list' %}"
